@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List App</title>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    // Define a simple to-do list component
+    function TodoList() {
+      const [notes, setNotes] = React.useState([]);
+      const [newNote, setNewNote] = React.useState('');
+
+      // Add a new note to the list
+      const addNote = () => {
+        if (newNote.trim() !== '') {
+          setNotes([...notes, newNote]);
+          setNewNote('');
+        }
+      };
+
+      // Update a note in the list
+      const updateNote = (index, updatedNote) => {
+        const updatedNotes = [...notes];
+        updatedNotes[index] = updatedNote;
+        setNotes(updatedNotes);
+      };
+
+      // Delete a note from the list
+      const deleteNote = (index) => {
+        const updatedNotes = [...notes];
+        updatedNotes.splice(index, 1);
+        setNotes(updatedNotes);
+      };
+
+      return (
+        <div>
+          <input
+            type="text"
+            value={newNote}
+            onChange={(e) => setNewNote(e.target.value)}
+          />
+          <button onClick={addNote}>Add Note</button>
+
+          <ul>
+            {notes.map((note, index) => (
+              <li key={index}>
+                <input
+                  type="text"
+                  value={note}
+                  onChange={(e) => updateNote(index, e.target.value)}
+                />
+                <button onClick={() => deleteNote(index)}>Delete</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    // Render the TodoList component to the DOM
+    ReactDOM.render(<TodoList />, document.getElementById('root'));
+  </script>
+</body>
+</html>
